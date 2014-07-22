@@ -23,7 +23,7 @@ var testController = {
                     return res.send(500,"Error retrieving test");
                 }
                 else{
-                    var x = Math.round(Math.random() * count);
+                    var x = Math.floor(Math.random() * count);
                     Test.findOne().skip(x).populate('questions').exec(function(err,tester){
                         if(err){
                             res.status = 500;

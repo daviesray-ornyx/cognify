@@ -127,27 +127,45 @@ angular.module('myApp.controllers',[])
     })
     .controller('TestController',function($scope,$rootScope,$state,AuthService,TestService){
 
-        $scope.setNextTestDetails = function(){
+        $scope.setTestDetails = function(){
             $scope.test = TestService.currentTest;
             $scope.test.scenario = TestService.currentTest.scenario;
             $scope.test.weight = TestService.currentTest.weight;
             $scope.test.questions = TestService.currentTest.questions;
+            $scope.totalScore = AuthService.currentUser.totalScore;
+            $scope.totalPossibleScore = AuthService.currentUser.totalPossibleScore;
         }
 
-        $scope.setNextTestDetails(TestService.currentTest);
+        $scope.getNextTest = function(){
+            TestService.getNextTest(AuthService.currentUser.username).success(function(tester, status, headers, config) {
+                //AuthService.currentUser = user;
+                //$state.go('profile');
+                TestService.currentTest = tester;
+                console.log('answers found' + TestService.currentTest.questions[0].answers);
+                //broadcast retrieval of current test
+                $rootScope.$broadcast('successfulNextTestRetrieval');
+            }).error(function(data, status, headers, config) {
+                return;
+            })
+        }
 
         $scope.markTest = function(test){
             var totalScore = 0;
             for(var index in test.questions){
+                test.questions[index].correct = false;
                 for(var ansIndex in test.questions[index].answers){
                     if(test.questions[index].givenAnswer == test.questions[index].answers[ansIndex])
                     {
+                        // set status to correct
+                        test.questions[index].correct = true;
                         totalScore += test.questions[index].points;
                         break;
                     }
                 }
             }
-            //Update total score
+
+            TestService.currentTest = test;     // updating the values
+
             if(AuthService.isLoggedIn){
                 // user is logged in
                     // update his details
@@ -159,6 +177,7 @@ angular.module('myApp.controllers',[])
                     success(function(data, status, headers, config) {
                     // User score updated successfully
                         // show results page
+                        TestService.isShowingResults = true;
                         $state.go('results');
                 }).
                     error(function(data, status, headers, config) {
@@ -172,29 +191,46 @@ angular.module('myApp.controllers',[])
                 AuthService.currentUser.totalScore = totalScore;
                 AuthService.currentUser.totalPossibleScore = test.weight
                 // show results page
+                TestService.isShowingResults = true;
                 $state.go('results');
             }
         }
 
-        $scope.showResults = function(){
-            //We handle showing of results
-            //$scope.isResultsMode = true;
+        $scope.setResultColor = function (correct) {
+            if(correct)
+                return 'color : green';
+            else if(!correct)
+                return 'color : red';
+        }
+
+        $scope.leaveResultsPage = function(){
+            // Either go to profile if user is logged in
+            if(AuthService.isLoggedIn){
+                // user is logged in
+                    // show profile
+                TestService.isShowingResults = false;
+                $state.go('profile');
+            }
+            else{
+                // User not logged in prompt for next test, login or registration
+                    // dialog
+                // cancel 
+            }
         }
 
         $scope.$on('successfulNextTestRetrieval', function(){
-            $scope.setNextTestDetails(TestService.currentTest);
+            $scope.setTestDetails();
         })
 
-        // need to keep track of whether the test should be anonymous or profiled!!
-        TestService.getNextTest(AuthService.currentUser.username).success(function(tester, status, headers, config) {
-            //AuthService.currentUser = user;
-            //$state.go('profile');
-            TestService.currentTest = tester;
-            console.log('answers found' + TestService.currentTest.questions[0].answers);
-            //broadcast retrieval of current test
-            $rootScope.$broadcast('successfulNextTestRetrieval');
-        }).error(function(data, status, headers, config) {
-            return;
-        })
+        // function calls
+        //$scope.setTestDetails();
+        if(!TestService.isShowingResults){
+            // get next test
+            $scope.getNextTest();
+        }
+        else{
+            $scope.setTestDetails();
+        }
+
     })
 

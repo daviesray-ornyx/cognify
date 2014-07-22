@@ -36,8 +36,8 @@ angular.module('myApp.Services',[])
     })
     .factory('TestService', function($http) {
         return {
-            currentTest: {
-            },
+            isShowingResults : false,
+            currentTest: { },
             createTest : function (test) {
                 return $http({
                     method: 'POST',
