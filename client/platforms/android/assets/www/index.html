@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+      <script src="js/services.js"></script>
+    <script src="js/controllers.js"></script>
+    <script src="js/app.js"></script>
+
+    <script src="cordova.js"></script>
+
+
+
+  </head>
+  <body ng-app="myApp" >
+
+  <ion-side-menus >
+      <!-- Left menu -->
+      <ion-side-menu side="left" is-enabled="true" ng-controller="MainController">
+          <ion-header-bar align-title="left" class="bar-light">
+              <h1 class="title">Application Settings</h1>
+          </ion-header-bar>
+          <ion-content direction="y" >
+              <ion-refresher
+                      pulling-text="Pull to refresh..."
+                      on-refresh="doRefresh()">
+              </ion-refresher>
+              <ion-list>
+                  <a class="item item-icon-left" ng-show="showRegistrationItem()" ng-click="showRegistrationForm()">
+                      <i class="icon ion-email"></i>
+                      Register
+                  </a>
+
+                  <a class="item item-icon-left" ng-click="showLoginForm()">
+                      <i class="icon {{authStatusIcon}}"></i>
+                      {{authStatusText}}
+                  </a>
+
+                  <a class="item item-icon-left" ng-click="showTestingForm()">
+                      <i class="icon ion-ios7-alarm"></i>
+                      Take Test
+                      <span class="badge badge-assertive" ng-show="showAnonymousTestText()">
+                        Anonymous
+                      </span>
+                  </a>
+
+                  <a class="item item-icon-left" ng-click="showUserProfileForm()">
+                      <i class="icon ion-ios7-person"></i>
+                      Profile
+                      <span class="badge badge-assertive">IQ 0</span>
+                  </a>
+
+                  <a class="item item-icon-left" >
+                      <i class="icon ion-ios7-copy"></i>
+                      Tests Taken
+                      <span class="badge badge-assertive">0</span>
+                  </a>
+
+                  <a class="item item-icon-left" ng-click="createTest()">
+                      <i class="icon ion-ios7-copy"></i>
+                      Create Test
+                      <span class="badge badge-assertive">0</span>
+                  </a>
+
+              </ion-list>
+          </ion-content>
+      </ion-side-menu>
+
+      <!-- Center content -->
+      <ion-side-menu-content drag-content="true">
+
+          <ion-nav-view>
+              <!-- Our templates go here!! -->
+          </ion-nav-view>
+
+      </ion-side-menu-content>
+
+
+  </ion-side-menus>
+
+
+  </body>
+</html>

@@ -1,0 +1,34 @@
+<ion-view xmlns="http://www.w3.org/1999/html">
+
+    <ion-header-bar align-title="center" class="bar-positive">
+        <a class="button button-clear icon-right ion-navicon button-light " menu-toggle="left"></a>
+        <h1 class="title">User Registration</h1>
+    </ion-header-bar>
+
+    <ion-content >
+        <div class="list">
+            <label class="item item-input">
+                <input type="text" placeholder="Username" ng-model="user.username">
+            </label>
+            <label class="item item-input">
+                <input type="password" placeholder="Password" ng-model="user.password">
+            </label>
+            <label class="item item-input">
+                <input type="password" placeholder="Confirm Password" ng-model="user.confirmPassword">
+            </label>
+            <button type="submit" class="button button-block button-positive" ng-click="registerUser(user)">
+                Submit
+            </button>
+        </div>
+
+
+    </ion-content>
+
+    <!--<ion-footer-bar class="bar-positive">
+        <button class="button button-full button-clear button-light">
+            Submit
+        </button>
+    </ion-footer-bar>-->
+
+
+</ion-view>

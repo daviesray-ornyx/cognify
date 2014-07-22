@@ -1,0 +1,54 @@
+<ion-view xmlns="http://www.w3.org/1999/html">
+
+    <ion-header-bar align-title="center" class="bar-positive">
+        <a class="button button-clear icon-right ion-navicon button-light " menu-toggle="left"></a>
+        <h1 class="title">Test</h1>
+    </ion-header-bar>
+
+    <ion-content >
+        <div class="list card" ng-model="test">
+
+            <div class="item item-avatar-right">
+                <img src="./img/avater.png">
+                <p href="#" class="subdued">Category : General</p>
+                <p href="#" class="subdued">Difficulty : General</p>
+                <p href="#" class="subdued">Weight : {{test.weight}}</p>
+            </div>
+
+            <div class="item item-body">
+                <!--<img class="full-image" src="delorean.jpg">-->
+                <h2>Scenario</h2>
+                <p>
+                    {{test.scenario}}
+                </p>
+
+                <h2>Questions</h2>
+                <div ng-repeat="question in test.questions">
+                    {{question.description}}
+                    <label class="item item-input" >
+                        <input type="text" placeholder="answer" ng-model="question.givenAnswer">
+                    </label>
+
+                </div>
+
+            </div>
+
+            <div class="item tabs tabs-secondary tabs-icon-left">
+                <a class="tab-item" >
+                    <i class="icon ion-thumbsup"></i>
+                    Forfeit
+                </a>
+                <a class="tab-item" >
+                    <i class="icon ion-chatbox"></i>
+                    Hint
+                </a>
+                <a class="tab-item" ng-click="markTest(test)">
+                    <i class="icon ion-share"></i>
+                    Submit
+                </a>
+            </div>
+
+        </div>
+    </ion-content>
+
+</ion-view>

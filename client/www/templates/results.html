@@ -1,0 +1,46 @@
+<ion-view xmlns="http://www.w3.org/1999/html">
+
+    <ion-header-bar align-title="center" class="bar-positive">
+        <a class="button button-clear icon-right ion-navicon button-light " menu-toggle="left"></a>
+        <h1 class="title">Test</h1>
+    </ion-header-bar>
+
+    <ion-content >
+        <div class="list card" ng-model="test">
+
+            <div class="item item-avatar-right">
+                <img src="./img/avater.png">
+                <p href="#" class="subdued">Category : General</p>
+                <p href="#" class="subdued">Difficulty : General</p>
+                <p href="#" class="subdued">Weight : {{test.weight}}</p>
+            </div>
+
+            <div class="item item-body">
+                <!--<img class="full-image" src="delorean.jpg">-->
+                <h2>Scenario</h2>
+                <p>
+                    {{test.scenario}}
+                </p>
+
+                <h2>Questions</h2>
+                <div ng-repeat="query in test.questions">
+                    <h3>{{query.description}}</h3>
+                    <p>Your answer: {{query.givenAnswer}}</p>
+                    <p>Correct answers: {{query.answers}}
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="item tabs tabs-secondary tabs-icon-left">
+                <a class="tab-item" >
+                    <i class="icon ion-thumbsup"></i>
+                    Ok
+                </a>
+            </div>
+
+        </div>
+    </ion-content>
+
+</ion-view>
