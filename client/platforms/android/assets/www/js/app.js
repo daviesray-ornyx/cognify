@@ -55,6 +55,11 @@ angular.module('myApp', ['ionic','myApp.controllers','myApp.Services']).
                 templateUrl: 'templates/testing.html',
                 controller: 'TestController'
             })
+            .state('results', {
+                url: '/results',
+                templateUrl: 'templates/results.html',
+                controller: 'TestController'
+            })
 
 
 

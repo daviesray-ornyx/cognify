@@ -4,11 +4,14 @@ angular.module('myApp.Services',[])
             currentUser: {
                 isLoggedIn : false,
                 username : "",
-                IQ : "",
+                totalScore : 0,
+                totalPossibleScore : 0,
+                IQ : function(){
+                    return totalScore/totalPossibleScore;
+                },
                 Tests : []
             },
             registerUser : function (user) {
-                alert('Into user services!!!!');
                 return $http({
                     method: 'POST',
                     url: 'http://localhost:3000/users',
@@ -21,23 +24,32 @@ angular.module('myApp.Services',[])
                     url: 'http://localhost:3000/users/login',
                     data: {'username': user.username, 'password': user.password}
                 });
+            },
+            updateScore : function (user,test,testScore) {
+                return $http({
+                    method: 'POST',
+                    url: 'http://localhost:3000/users/updateScore',
+                    data: {'username' : user.username, 'test' : test,'testScore' : user.totalScore}
+                });
             }
         }
     })
     .factory('TestService', function($http) {
         return {
-            currentTest: {
-                isLoggedIn : false,
-                username : "",
-                IQ : "",
-                Tests : []
-            },
+            isShowingResults : false,
+            currentTest: { },
             createTest : function (test) {
-                alert('Into user services!!!!');
                 return $http({
                     method: 'POST',
-                    url: 'http://localhost:3000/tests',
+                    url: 'http://localhost:3000/tests/',
                     data: test
+                });
+            },
+            getNextTest : function(username){
+                return $http({
+                    method: 'POST',
+                    url: 'http://localhost:3000/tests/getNextTest',
+                    data : {'username' : username }
                 });
             }
 

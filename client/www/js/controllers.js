@@ -125,7 +125,7 @@ angular.module('myApp.controllers',[])
 
 
     })
-    .controller('TestController',function($scope,$rootScope,$state,AuthService,TestService){
+    .controller('TestController',function($scope,$rootScope,$state,$ionicPopup,AuthService,TestService){
 
         $scope.setTestDetails = function(){
             $scope.test = TestService.currentTest;
@@ -206,17 +206,62 @@ angular.module('myApp.controllers',[])
         $scope.leaveResultsPage = function(){
             // Either go to profile if user is logged in
             if(AuthService.isLoggedIn){
-                // user is logged in
-                    // show profile
                 TestService.isShowingResults = false;
                 $state.go('profile');
             }
             else{
-                // User not logged in prompt for next test, login or registration
-                    // dialog
-                // cancel 
+                $scope.showPopup();     // showing popup
             }
         }
+
+        $scope.showPopup = function() {
+
+            // An elaborate, custom popup
+            var myPopup = $ionicPopup.show({
+                template: 'You are not logged in. You can register or login with your details to keep track of your progress',
+                title: 'Registration/Login confirmation',
+                subTitle: 'Please use normal things',
+                scope: $scope,
+                buttons: [
+                    {
+                        text: '<b>next</b>',
+                        type: 'button-positive',
+                        onTap: function(e) {
+                            return 0;
+                        }
+                    },
+                    {
+                        text: '<b>register</b>',
+                        type: 'button-positive',
+                        onTap: function(e) {
+                            return 1;
+                        }
+                    },
+                    {
+                        text: '<b>login</b>',
+                        type: 'button-positive',
+                        onTap: function(e) {
+                            return 2;
+                        }
+                    }
+                ]
+            });
+            myPopup.then(function(res) {
+                TestService.isShowingResults = false;
+                if(res == 0){
+                    //next question
+                    $state.go('testing');
+                }
+                else if(res == 1){
+                    //next question
+                    $state.go('reg');
+                }
+                else if(res == 2){
+                    //next question
+                    $state.go('auth');
+                }
+            });
+        };
 
         $scope.$on('successfulNextTestRetrieval', function(){
             $scope.setTestDetails();

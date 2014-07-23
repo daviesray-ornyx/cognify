@@ -1,0 +1,46 @@
+<ion-view xmlns="http://www.w3.org/1999/html">
+
+    <ion-header-bar align-title="center" class="bar-positive">
+        <a class="button button-clear icon-right ion-navicon button-light " menu-toggle="left"></a>
+        <h1 class="title">Score  : {{totalScore}} / {{totalPossibleScore}}</h1>
+    </ion-header-bar>
+
+    <ion-content >
+        <div class="list card" ng-model="test">
+
+            <!--<div class="item item-avatar-right">
+                <img src="./img/avater.png">
+                <p href="#" class="subdued">Category : General</p>
+                <p href="#" class="subdued">Difficulty : General</p>
+                <p href="#" class="subdued"></p>
+            </div>-->
+
+            <div class="item item-body">
+
+                <ion-list >
+                    <div class="item item-divider">
+                        {{test.scenario}}
+                    </div>
+                    <ion-item ng-repeat="query in test.questions">
+                        <h2>Question {{$index + 1}}. {{query.description}} ({{query.points}} points).</h2>
+                        <h3>Your answer</h3>
+                        <p style="{{setResultColor(query.correct)}}">&nbsp;&nbsp;{{query.givenAnswer}}</p>
+                        <h3>Possible answers</h3>
+                        <label ng-repeat="answer in query.answers">
+                            &nbsp;&nbsp;{{answer}}
+                        </label>
+                    </ion-item>
+                </ion-list>
+
+            </div>
+
+        </div>
+    </ion-content>
+
+    <ion-footer-bar class="bar-positive">
+        <div class="button-bar">
+            <a class="button button-clear icon ion-thumbsup" ng-click="leaveResultsPage()">Ok</a>
+        </div>
+    </ion-footer-bar>
+
+</ion-view>
